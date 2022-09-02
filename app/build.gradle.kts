@@ -83,6 +83,7 @@ dependencies {
     implementation(AndroidX.work)
 
     implementation(Retrofit.retrofit)
+    implementation(Retrofit.moshi)
     implementation(Retrofit.okHttp)
     implementation(Retrofit.okHttpLoggingInterceptor)
 

@@ -1,4 +1,4 @@
-package com.balevanciaga.tvapp.ui.theme
+package com.balevanciaga.tvapp.main.ui.theme
 
 import android.app.Activity
 import android.os.Build

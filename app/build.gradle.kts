@@ -84,6 +84,7 @@ dependencies {
 
     implementation(Retrofit.retrofit)
     implementation(Retrofit.moshi)
+    implementation(Retrofit.moshiConverter)
     implementation(Retrofit.okHttp)
     implementation(Retrofit.okHttpLoggingInterceptor)
 

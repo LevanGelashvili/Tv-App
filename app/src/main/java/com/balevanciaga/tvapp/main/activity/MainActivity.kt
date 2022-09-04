@@ -6,11 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.balevanciaga.tvapp.custom.ext.drawUnderStatusBar
 import com.balevanciaga.tvapp.main.ui.theme.TvAppTheme
 import com.balevanciaga.tvapp.presentation.list.NavGraphs
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,11 +21,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.apply {
-            drawUnderStatusBar()
-        }
-
         setContent {
+            HideStatusBar()
+
             TvAppTheme {
                 val navController = rememberNavController()
 
@@ -39,5 +38,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    @Composable
+    private fun HideStatusBar() {
+        val systemUiController = rememberSystemUiController()
+        systemUiController.isSystemBarsVisible = false
     }
 }

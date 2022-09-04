@@ -20,8 +20,12 @@ class TvShowListViewModel @Inject constructor(
 
     override var viewState: TvShowListViewState by mutableStateOf(TvShowListViewState())
 
+    private var cachedTvShows = listOf<TvShowBrief>()
+    private var isSearchStarting = true
+    private var page = 1
+
     private val paginator = Paginator(
-        initialKey = viewState.page,
+        initialKey = page,
         onLoadUpdated = {
             viewModelScope.launch {
                 viewState = viewState.copy(isLoading = it)
@@ -31,19 +35,16 @@ class TvShowListViewModel @Inject constructor(
             tvShowRepository.getPopularShows(page = nextPage)
         },
         getNextKey = {
-            viewState.page + 1
+            page + 1
         },
         onSuccess = { items, newKey ->
+            page = newKey
             viewState = viewState.copy(
                 tvShows = viewState.tvShows + items,
-                page = newKey,
                 endReached = items.isEmpty()
             )
         }
     )
-
-    private var cachedTvShows = listOf<TvShowBrief>()
-    private var isSearchStarting = true
 
     init {
         postAction(TvShowListAction.LoadMore)
@@ -57,18 +58,18 @@ class TvShowListViewModel @Inject constructor(
                 }
             }
             is TvShowListAction.OnFilter -> {
-                filterShows()
+                filterShows(query = action.query)
             }
         }
     }
 
-    private fun filterShows() {
+    private fun filterShows(query: String) {
         val listToSearch = when (isSearchStarting) {
             true -> viewState.tvShows
             false -> cachedTvShows
         }
         execute(coroutineDispatcher = Dispatchers.Default) {
-            if (viewState.query.isEmpty()) {
+            if (query.isEmpty()) {
                 isSearchStarting = true
                 viewState = viewState.copy(
                     tvShows = cachedTvShows,
@@ -76,7 +77,7 @@ class TvShowListViewModel @Inject constructor(
                 )
             } else {
                 val result = listToSearch.filter {
-                    it.name.contains(viewState.query, ignoreCase = true)
+                    it.name.contains(query, ignoreCase = true)
                 }
                 if (isSearchStarting) {
                     cachedTvShows = viewState.tvShows

@@ -1,5 +1,6 @@
 package com.balevanciaga.tvapp.presentation.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -14,8 +15,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.balevanciaga.tvapp.domain.model.TvShowBrief
+import com.balevanciaga.tvapp.presentation.destinations.TvShowDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 private const val CELL_COUNT = 2
 private val fullWidthSpan: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(CELL_COUNT) }
@@ -24,6 +27,7 @@ private val fullWidthSpan: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemS
 @Destination
 @Composable
 fun TvShowListScreen(
+    navigator: DestinationsNavigator,
     viewModel: TvShowListViewModel = hiltViewModel()
 ) {
     with(viewModel.viewState) {
@@ -36,7 +40,10 @@ fun TvShowListScreen(
                 viewModel.postAction(TvShowListAction.LoadMore)
             },
             onFilter = {
-                viewModel.postAction(TvShowListAction.OnFilter(filter = it))
+                viewModel.postAction(TvShowListAction.OnFilter(query = it))
+            },
+            onShowClicked = {
+                navigator.navigate(TvShowDetailsScreenDestination(id = it))
             }
         )
     }
@@ -49,7 +56,8 @@ private fun TvShowListContent(
     isLoading: Boolean,
     isSearching: Boolean,
     loadMore: () -> Unit,
-    onFilter: (query: String) -> Unit
+    onFilter: (query: String) -> Unit,
+    onShowClicked: (id: Int) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(count = CELL_COUNT),
@@ -64,7 +72,10 @@ private fun TvShowListContent(
             if (i >= tvShows.size - 1 && !endReached && !isLoading && !isSearching) {
                 loadMore()
             }
-            TvShowItem(show = tvShows[i])
+            TvShowItem(
+                show = tvShows[i],
+                onShowClicked = onShowClicked
+            )
         }
 
         if (isLoading) {
@@ -91,11 +102,17 @@ private fun SearchBar(
 }
 
 @Composable
-private fun TvShowItem(show: TvShowBrief) {
+private fun TvShowItem(
+    show: TvShowBrief,
+    onShowClicked: (id: Int) -> Unit
+) {
     Text(
         modifier = Modifier
             .padding(all = 25.dp)
-            .padding(vertical = 35.dp),
+            .padding(vertical = 35.dp)
+            .clickable {
+                onShowClicked(show.id)
+            },
         text = show.name,
         textAlign = TextAlign.Center
     )

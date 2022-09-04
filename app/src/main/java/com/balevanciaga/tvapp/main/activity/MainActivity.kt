@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.balevanciaga.tvapp.main.ui.theme.TvAppTheme
-import com.balevanciaga.tvapp.presentation.list.NavGraphs
+import com.balevanciaga.tvapp.presentation.NavGraphs
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint

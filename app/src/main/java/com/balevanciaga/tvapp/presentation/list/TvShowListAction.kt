@@ -6,10 +6,5 @@ sealed class TvShowListAction : BaseAction<TvShowListViewState> {
 
     object LoadMore : TvShowListAction()
 
-    class OnFilter(private val filter: String) : TvShowListAction() {
-
-        override fun updateData(previousData: TvShowListViewState): TvShowListViewState {
-            return previousData.copy(query = filter)
-        }
-    }
+    data class OnFilter(val query: String) : TvShowListAction()
 }

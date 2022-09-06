@@ -25,7 +25,7 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideMoshi() = Moshi.Builder()
+    fun provideMoshi(): Moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
 

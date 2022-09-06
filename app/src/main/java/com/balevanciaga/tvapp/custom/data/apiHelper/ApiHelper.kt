@@ -1,7 +1,6 @@
 package com.balevanciaga.tvapp.custom.data.apiHelper
 
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException

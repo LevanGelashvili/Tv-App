@@ -5,4 +5,5 @@ object ApiEndpoints {
     const val IMAGE_BACKDROP_URL = "https://image.tmdb.org/t/p/w780"
 
     const val POPULAR = "popular"
+    const val TV_GENRES = "genre/tv/list"
 }

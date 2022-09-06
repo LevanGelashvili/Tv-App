@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.balevanciaga.tvapp.custom.base.BaseViewModel
 import com.balevanciaga.tvapp.custom.data.paginator.Paginator
+import com.balevanciaga.tvapp.custom.ext.log
 import com.balevanciaga.tvapp.domain.model.TvShowBrief
 import com.balevanciaga.tvapp.domain.repository.ITvShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

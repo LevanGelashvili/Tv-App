@@ -1,27 +1,28 @@
 package com.balevanciaga.tvapp.presentation.list
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.TextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.balevanciaga.tvapp.domain.model.TvShowBrief
+import com.balevanciaga.tvapp.main.ui.theme.Theme
 import com.balevanciaga.tvapp.presentation.destinations.TvShowDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-
-private const val CELL_COUNT = 2
-private val fullWidthSpan: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(CELL_COUNT) }
 
 @RootNavGraph(start = true)
 @Destination
@@ -59,12 +60,11 @@ private fun TvShowListContent(
     onFilter: (query: String) -> Unit,
     onShowClicked: (id: Int) -> Unit
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(count = CELL_COUNT),
+    LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item(span = fullWidthSpan) {
+        item {
             SearchBar(onFilter = onFilter)
         }
 
@@ -79,7 +79,7 @@ private fun TvShowListContent(
         }
 
         if (isLoading) {
-            item(span = fullWidthSpan) {
+            item {
                 BottomLoader()
             }
         }
@@ -101,21 +101,48 @@ private fun SearchBar(
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun TvShowItem(
     show: TvShowBrief,
     onShowClicked: (id: Int) -> Unit
 ) {
-    Text(
-        modifier = Modifier
-            .padding(all = 25.dp)
-            .padding(vertical = 35.dp)
-            .clickable {
-                onShowClicked(show.id)
-            },
-        text = show.name,
-        textAlign = TextAlign.Center
-    )
+    Card(
+        modifier = Modifier.padding(all = 8.dp),
+        shape = Theme.shapes.roundedDefault,
+        onClick = {
+            onShowClicked(show.id)
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .background(color = Theme.colors.background)
+                .fillMaxWidth()
+                .height(300.dp)
+        ) {
+            Image(
+                modifier = Modifier
+                    .clip(shape = Theme.shapes.roundedDefault)
+                    .fillMaxWidth(),
+                painter = rememberAsyncImagePainter(model = show.backdropUrl),
+                contentScale = ContentScale.Crop,
+                contentDescription = null
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Text(
+                    text = show.name,
+                    color = Theme.colors.onBackground,
+                    style = Theme.typography.medium14,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .align(alignment = Alignment.TopStart)
+                )
+            }
+        }
+    }
 }
 
 @Composable

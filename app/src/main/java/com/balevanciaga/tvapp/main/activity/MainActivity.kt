@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.balevanciaga.tvapp.main.ui.theme.Theme
 import com.balevanciaga.tvapp.main.ui.theme.TvAppTheme
 import com.balevanciaga.tvapp.presentation.NavGraphs
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Theme.colors.background
                 ) {
                     DestinationsNavHost(
                         navGraph = NavGraphs.root,

@@ -1,11 +1,25 @@
 package com.balevanciaga.tvapp.main.ui.theme
 
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+internal val LocalColors = staticCompositionLocalOf { Color() }
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+data class Color(
+    val primary: Color = cgBlue,
+    val secondary: Color = tiffanyBlue,
+
+    val onPrimary: Color = Color.White,
+    val onSecondary: Color = Color.White,
+
+    val background: Color = Color.Black,
+    val onBackground: Color = Color.White,
+
+    val error: Color = coral,
+    val yellow: Color = maxYellow
+)
+
+val cgBlue = Color(0xFF227C9D)
+val tiffanyBlue = Color(0xFF17C3B2)
+val maxYellow = Color(0xFFFFCB77)
+val coral = Color(0xFFFE6D73)

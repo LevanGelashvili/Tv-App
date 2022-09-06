@@ -11,19 +11,29 @@ import com.balevanciaga.tvapp.R
 internal val LocalTypography = staticCompositionLocalOf { Typography() }
 
 data class Typography internal constructor(
+    val normal12: TextStyle = TextStyle(
+        fontSize = 12.sp,
+        fontWeight = FontWeight.Normal,
+        fontFamily = netflixSans
+    ),
     val medium14: TextStyle = TextStyle(
         fontSize = 14.sp,
         fontWeight = FontWeight.Medium,
+        fontFamily = netflixSans
+    ),
+    val bold16: TextStyle = TextStyle(
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
         fontFamily = netflixSans
     )
 )
 
 val netflixSans = FontFamily(
-    Font(R.font.netflix_sans_black),
-    Font(R.font.netflix_sans_bold),
+    Font(R.font.netflix_sans_thin, weight = FontWeight.Thin),
+    Font(R.font.netflix_sans_light, weight = FontWeight.Light),
+    Font(R.font.netflix_sans_regular, weight = FontWeight.Normal),
+    Font(R.font.netflix_sans_medium, weight = FontWeight.Medium),
+    Font(R.font.netflix_sans_bold, weight = FontWeight.Bold),
+    Font(R.font.netflix_sans_black, weight = FontWeight.Black),
     Font(R.font.netflix_sans_icon),
-    Font(R.font.netflix_sans_light),
-    Font(R.font.netflix_sans_medium),
-    Font(R.font.netflix_sans_regular),
-    Font(R.font.netflix_sans_thin),
 )

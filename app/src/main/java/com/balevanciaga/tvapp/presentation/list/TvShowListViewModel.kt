@@ -41,7 +41,8 @@ class TvShowListViewModel @Inject constructor(
         onSuccess = { items, newKey ->
             page = newKey
             viewState = viewState.copy(
-                tvShows = viewState.tvShows + items,
+                initialLoading = false,
+                tvShows = viewState.tvShows + items.log(),
                 endReached = items.isEmpty()
             )
         }

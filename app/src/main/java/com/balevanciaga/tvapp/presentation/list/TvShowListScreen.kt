@@ -1,11 +1,13 @@
 package com.balevanciaga.tvapp.presentation.list
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,7 +50,9 @@ fun TvShowListScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+private const val CELL_COUNT = 2
+private val fullWidthSpan: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(CELL_COUNT) }
+
 @Composable
 private fun TvShowListContent(
     tvShows: List<TvShowBrief>,
@@ -57,11 +61,11 @@ private fun TvShowListContent(
     onFilter: (query: String) -> Unit,
     onShowClicked: (id: Int) -> Unit
 ) {
-    LazyColumn(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(count = 2),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        stickyHeader {
+        item(span = fullWidthSpan) {
             Column(
                 modifier = Modifier
                     .background(color = Theme.colors.background)

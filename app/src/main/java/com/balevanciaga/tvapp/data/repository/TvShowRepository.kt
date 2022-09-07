@@ -19,6 +19,12 @@ class TvShowRepository @Inject constructor(
         }
     }
 
+    override suspend fun getSimilarShows(id: Int): List<TvShowBrief> {
+        return ApiHelper.makeApiCall {
+            api.getSimilarShows(id = id)
+        }.results.map { it.toDomain() }
+    }
+
     override suspend fun getShowDetails(id: Int): TvShowDetails {
         return ApiHelper.makeApiCall {
             api.getShowDetails(id = id)

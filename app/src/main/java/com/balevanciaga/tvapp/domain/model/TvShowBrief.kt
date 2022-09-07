@@ -6,6 +6,6 @@ data class TvShowBrief(
     val id: Int,
     val name: String,
     val rating: Float,
-    val airDate: LocalDate?,
-    val backdropUrl: String?,
+    val firstAirDate: LocalDate?,
+    val posterUrl: String?,
 )

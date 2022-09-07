@@ -1,6 +1,5 @@
 package com.balevanciaga.tvapp.presentation.list.composables
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,10 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.balevanciaga.tvapp.domain.model.TvShowBrief
@@ -39,74 +37,13 @@ fun TvShowItem(
         Column(
             modifier = Modifier
                 .background(color = Theme.colors.background)
-                .fillMaxWidth()
-                .height(300.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TvShowImageWithGradient(imageUrl = show.backdropUrl)
+            TvShowImageWithGradient(imageUrl = show.posterUrl)
+            Spacer(modifier = Modifier.height(8.dp))
             TvShowInfo(show = show)
         }
-    }
-}
-
-@Composable
-private fun RatingBar(
-    modifier: Modifier = Modifier,
-    rating: Float,
-    radius: Dp = 25.dp,
-    strokeWidth: Dp = 2.dp
-) {
-    Box(
-        modifier = modifier.size(radius * 2f),
-        contentAlignment = Alignment.Center
-    ) {
-        Canvas(modifier = Modifier.size(radius * 2f)) {
-            drawArc(
-                color = when (rating) {
-                    in 8f..10f -> Color.Green
-                    in 5f..8f -> Color.Yellow
-                    else -> Color.Red
-                },
-                startAngle = -90f,
-                sweepAngle = 360f * rating / 10,
-                useCenter = false,
-                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
-            )
-        }
-        Text(
-            text = rating.toString(),
-            color = Theme.colors.onBackground,
-            style = Theme.typography.bold16
-        )
-    }
-}
-
-@Composable
-private fun TvShowInfo(
-    show: TvShowBrief
-) {
-    Row(
-        modifier = Modifier.fillMaxSize(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                text = show.name,
-                color = Theme.colors.onBackground,
-                style = Theme.typography.medium14,
-            )
-            Text(
-                text = show.airDate?.year.toString(),
-                color = Theme.colors.onBackground,
-                style = Theme.typography.normal12,
-            )
-        }
-        RatingBar(
-            modifier = Modifier.padding(end = 8.dp),
-            rating = show.rating
-        )
     }
 }
 
@@ -117,13 +54,14 @@ private fun TvShowImageWithGradient(
     Image(
         modifier = Modifier
             .fillMaxWidth()
+            .height(250.dp)
             .drawWithCache {
                 onDrawWithContent {
                     drawContent()
                     drawRect(
                         brush = Brush.verticalGradient(
-                            0.5f to Color.Transparent,
-                            1f to Color.Black
+                            0.9f to Color.Transparent,
+                            1.1f to Color.Black
                         )
                     )
                 }
@@ -134,4 +72,38 @@ private fun TvShowImageWithGradient(
         contentScale = ContentScale.Crop,
         contentDescription = null
     )
+}
+
+@Composable
+private fun TvShowInfo(
+    show: TvShowBrief
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = limitedLengthText(text = show.name),
+            color = Theme.colors.onBackground,
+            style = Theme.typography.medium10,
+        )
+        Text(
+            modifier = Modifier.padding(end = 4.dp),
+            text = "${show.rating}",
+            color = Theme.colors.onBackground,
+            style = Theme.typography.medium10,
+        )
+    }
+}
+
+private fun limitedLengthText(
+    text: String,
+    maxChars: Int = 25
+): String {
+    return if (text.length > maxChars) {
+        text.substring(startIndex = 0, endIndex = maxChars) + "…"
+    } else {
+        text
+    }
 }

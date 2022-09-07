@@ -19,6 +19,7 @@ data class Color(
     val yellow: Color = maxYellow
 )
 
+val spaceGray = Color(0xFF23282C)
 val cgBlue = Color(0xFF227C9D)
 val tiffanyBlue = Color(0xFF17C3B2)
 val maxYellow = Color(0xFFFFCB77)

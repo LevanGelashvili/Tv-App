@@ -1,7 +1,7 @@
 package com.balevanciaga.tvapp.data.dataSources.remote.api
 
-import com.balevanciaga.tvapp.data.dataSources.remote.dto.response.PopularShowsDto
 import com.balevanciaga.tvapp.data.dataSources.remote.dto.response.TvShowDetailsDto
+import com.balevanciaga.tvapp.data.dataSources.remote.dto.response.TvShowListDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -12,7 +12,12 @@ interface TvShowApi {
     @GET(ApiEndpoints.POPULAR)
     suspend fun getPopularShows(
         @Query("page") page: Int
-    ): Response<PopularShowsDto>
+    ): Response<TvShowListDto>
+
+    @GET("{tv_id}/" + ApiEndpoints.SIMILAR)
+    suspend fun getSimilarShows(
+        @Path("tv_id") id: Int
+    ): Response<TvShowListDto>
 
     @GET("{tv_id}")
     suspend fun getShowDetails(

@@ -88,9 +88,6 @@ dependencies {
     implementation(Retrofit.okHttp)
     implementation(Retrofit.okHttpLoggingInterceptor)
 
-    implementation(Room.roomRuntime)
-    annotationProcessor(Room.roomCompiler)
-
     implementation(Google.material)
     implementation(Google.accompanistMaterial)
     implementation(Google.accompanistAnimation)

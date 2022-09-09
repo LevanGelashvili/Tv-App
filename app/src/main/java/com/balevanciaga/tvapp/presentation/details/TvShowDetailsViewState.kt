@@ -5,5 +5,6 @@ import com.balevanciaga.tvapp.domain.model.TvShowDetails
 
 data class TvShowDetailsViewState(
     val details: TvShowDetails? = null,
-    val similarShows: List<TvShowBrief> = emptyList()
+    val similarShows: List<TvShowBrief> = emptyList(),
+    val initialLoading: Boolean = true
 )

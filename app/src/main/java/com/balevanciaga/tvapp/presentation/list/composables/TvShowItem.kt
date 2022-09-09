@@ -13,10 +13,9 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.balevanciaga.tvapp.custom.ext.limitLength
 import com.balevanciaga.tvapp.domain.model.TvShowBrief
 import com.balevanciaga.tvapp.main.ui.theme.Theme
 
@@ -66,9 +65,7 @@ private fun TvShowImageWithGradient(
                     )
                 }
             },
-        painter = rememberAsyncImagePainter(
-            model = imageUrl ?: "https://i.imgur.com/RLTSzOZ.png"
-        ),
+        painter = rememberAsyncImagePainter(model = imageUrl),
         contentScale = ContentScale.Crop,
         contentDescription = null
     )
@@ -84,7 +81,7 @@ private fun TvShowInfo(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = limitedLengthText(text = show.name),
+            text = show.name.limitLength(maxChars = 25),
             color = Theme.colors.onBackground,
             style = Theme.typography.medium10,
         )
@@ -94,16 +91,5 @@ private fun TvShowInfo(
             color = Theme.colors.onBackground,
             style = Theme.typography.medium10,
         )
-    }
-}
-
-private fun limitedLengthText(
-    text: String,
-    maxChars: Int = 25
-): String {
-    return if (text.length > maxChars) {
-        text.substring(startIndex = 0, endIndex = maxChars) + "…"
-    } else {
-        text
     }
 }

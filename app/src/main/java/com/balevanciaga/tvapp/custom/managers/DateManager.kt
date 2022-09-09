@@ -8,6 +8,10 @@ object DateManager {
     private const val DEFAULT_PATTERN = "yyyy-MM-dd"
 
     fun strToDate(dateStr: String, pattern: String = DEFAULT_PATTERN): LocalDate? {
-        return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(pattern))
+        return try {
+            LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(pattern))
+        } catch (e: Exception) {
+            null
+        }
     }
 }

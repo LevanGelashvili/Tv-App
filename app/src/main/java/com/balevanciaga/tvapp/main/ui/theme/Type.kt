@@ -16,6 +16,11 @@ data class Typography internal constructor(
         fontWeight = FontWeight.Normal,
         fontFamily = netflixSans
     ),
+    val normal14: TextStyle = TextStyle(
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Normal,
+        fontFamily = netflixSans
+    ),
     val medium10: TextStyle = TextStyle(
         fontSize = 10.sp,
         fontWeight = FontWeight.Medium,
@@ -36,8 +41,8 @@ data class Typography internal constructor(
         fontWeight = FontWeight.Bold,
         fontFamily = netflixSans
     ),
-    val black18: TextStyle = TextStyle(
-        fontSize = 18.sp,
+    val black20: TextStyle = TextStyle(
+        fontSize = 20.sp,
         fontWeight = FontWeight.Black,
         fontFamily = netflixSans
     )

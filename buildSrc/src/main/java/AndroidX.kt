@@ -5,9 +5,6 @@ object AndroidX {
     private const val appCompatVersion = "1.4.0"
     const val appCompat = "androidx.appcompat:appcompat:$appCompatVersion"
 
-    private const val paletteVersion = "1.0.0"
-    const val palette = "androidx.palette:palette:$paletteVersion"
-
     private const val securityVersion = "1.1.0-alpha03"
     const val security = "androidx.security:security-crypto:$securityVersion"
 

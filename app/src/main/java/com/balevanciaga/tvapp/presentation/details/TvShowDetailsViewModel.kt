@@ -4,7 +4,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.balevanciaga.tvapp.custom.base.BaseViewModel
-import com.balevanciaga.tvapp.custom.ext.log
 import com.balevanciaga.tvapp.domain.repository.ITvShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -21,7 +20,7 @@ class TvShowDetailsViewModel @Inject constructor(
             is TvShowDetailsAction.FetchShowDetails -> {
                 execute {
                     viewState = viewState.copy(
-                        details = tvShowRepository.getShowDetails(id = action.id).log(),
+                        details = tvShowRepository.getShowDetails(id = action.id),
                         similarShows = tvShowRepository.getSimilarShows(id = action.id)
                     )
                 }

@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.balevanciaga.tvapp.custom.base.BaseViewModel
 import com.balevanciaga.tvapp.custom.data.paginator.Paginator
-import com.balevanciaga.tvapp.custom.ext.log
 import com.balevanciaga.tvapp.domain.model.TvShowBrief
 import com.balevanciaga.tvapp.domain.repository.ITvShowRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,6 +38,9 @@ class TvShowListViewModel @Inject constructor(
             page + 1
         },
         onSuccess = { items, newKey ->
+            if (cachedTvShows.isEmpty()) {
+                cachedTvShows = items
+            }
             page = newKey
             viewState = viewState.copy(
                 initialLoading = false,
@@ -60,7 +62,7 @@ class TvShowListViewModel @Inject constructor(
                 }
             }
             is TvShowListAction.OnFilter -> {
-                filterShows(query = action.query)
+                filterShows(query = action.query.trim())
             }
         }
     }
@@ -71,7 +73,7 @@ class TvShowListViewModel @Inject constructor(
             false -> cachedTvShows
         }
         execute(coroutineDispatcher = Dispatchers.Default) {
-            if (query.isEmpty()) {
+            if (query.isBlank()) {
                 isSearchStarting = true
                 viewState = viewState.copy(
                     tvShows = cachedTvShows,

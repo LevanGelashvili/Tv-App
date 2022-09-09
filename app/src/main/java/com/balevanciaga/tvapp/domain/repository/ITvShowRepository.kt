@@ -5,6 +5,6 @@ import com.balevanciaga.tvapp.domain.model.TvShowDetails
 
 interface ITvShowRepository {
     suspend fun getPopularShows(page: Int): List<TvShowBrief>
-    suspend fun getSimilarShows(id: Int): List<TvShowBrief>
     suspend fun getShowDetails(id: Int): TvShowDetails
+    suspend fun getSimilarShows(id: Int): List<TvShowBrief>
 }

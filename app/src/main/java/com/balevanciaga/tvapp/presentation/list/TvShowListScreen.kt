@@ -2,14 +2,10 @@ package com.balevanciaga.tvapp.presentation.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,6 +13,7 @@ import com.balevanciaga.tvapp.custom.composables.Loader
 import com.balevanciaga.tvapp.domain.model.TvShowBrief
 import com.balevanciaga.tvapp.main.ui.theme.Theme
 import com.balevanciaga.tvapp.presentation.destinations.TvShowDetailsScreenDestination
+import com.balevanciaga.tvapp.presentation.list.animation.TvShowListScreenAnimation
 import com.balevanciaga.tvapp.presentation.list.composables.SearchBar
 import com.balevanciaga.tvapp.presentation.list.composables.TvShowItem
 import com.ramcosta.composedestinations.annotation.Destination
@@ -24,7 +21,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @RootNavGraph(start = true)
-@Destination
+@Destination(style = TvShowListScreenAnimation::class)
 @Composable
 fun TvShowListScreen(
     navigator: DestinationsNavigator,
@@ -36,52 +33,55 @@ fun TvShowListScreen(
         } else {
             TvShowListContent(
                 tvShows = tvShows,
+                query = query,
                 canLoadMore = !endReached && !isLoading && !isSearching,
                 loadMore = {
                     viewModel.postAction(TvShowListAction.LoadMore)
                 },
                 onFilter = {
                     viewModel.postAction(TvShowListAction.OnFilter(query = it))
+                },
+                onShowClicked = {
+                    navigator.navigate(TvShowDetailsScreenDestination(id = it))
                 }
-            ) {
-                navigator.navigate(TvShowDetailsScreenDestination(id = it))
-            }
+            )
         }
     }
 }
 
-private const val CELL_COUNT = 2
-private val fullWidthSpan: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(CELL_COUNT) }
 
 @Composable
 private fun TvShowListContent(
     tvShows: List<TvShowBrief>,
+    query: String,
     canLoadMore: Boolean,
     loadMore: () -> Unit,
     onFilter: (query: String) -> Unit,
-    onShowClicked: (id: Int) -> Unit
+    onShowClicked: (id: Int) -> Unit,
+    gridCellCount: Int = 2,
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(count = 2),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp),
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
-        item(span = fullWidthSpan) {
-            Column(
-                modifier = Modifier
-                    .background(color = Theme.colors.background)
-                    .padding(8.dp)
-            ) {
-                SearchBar(onFilter = onFilter)
+        SearchBar(
+            modifier = Modifier
+                .background(color = Theme.colors.background)
+                .padding(horizontal = 8.dp, vertical = 12.dp),
+            query = query,
+            onFilter = onFilter
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(count = gridCellCount)
+        ) {
+            items(tvShows.size) { i ->
+                if (i >= tvShows.size - 1 && canLoadMore) {
+                    loadMore()
+                }
+                TvShowItem(
+                    show = tvShows[i],
+                    onShowClicked = onShowClicked
+                )
             }
-        }
-        items(tvShows.size) { i ->
-            if (i >= tvShows.size - 1 && canLoadMore) {
-                loadMore()
-            }
-            TvShowItem(
-                show = tvShows[i],
-                onShowClicked = onShowClicked
-            )
         }
     }
 }

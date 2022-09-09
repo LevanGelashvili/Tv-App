@@ -47,6 +47,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Compose.compilerVersion
@@ -70,6 +71,7 @@ dependencies {
     implementation(Compose.navigation)
     implementation(Compose.viewModelCompose)
     implementation(Compose.activityCompose)
+    implementation(Compose.flowLayout)
 
     implementation(DaggerHilt.daggerHiltAndroid)
     kapt(DaggerHilt.daggerHiltCompiler)
@@ -79,8 +81,8 @@ dependencies {
 
     implementation(AndroidX.coreKtx)
     implementation(AndroidX.appCompat)
-    implementation(AndroidX.security)
     implementation(AndroidX.work)
+    implementation(AndroidX.security)
 
     implementation(Retrofit.retrofit)
     implementation(Retrofit.moshi)
@@ -94,10 +96,10 @@ dependencies {
     implementation(Google.accompanistSystemUI)
 
     implementation(ThirdParty.destinations)
+    implementation(ThirdParty.destinationsAnimations)
     ksp(ThirdParty.destinationsKsp)
 
     implementation(Coil.coil)
-    implementation(AndroidX.palette)
 
     testImplementation(Testing.junit4)
     androidTestImplementation(Testing.junitAndroidExt)

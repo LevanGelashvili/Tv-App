@@ -7,5 +7,6 @@ import androidx.compose.ui.unit.dp
 internal val LocalShapes = staticCompositionLocalOf { Shape() }
 
 data class Shape(
-    val roundedDefault: RoundedCornerShape = RoundedCornerShape(size = 10.dp)
+    val roundedDefault: RoundedCornerShape = RoundedCornerShape(size = 10.dp),
+    val roundedBackdropImage: RoundedCornerShape = RoundedCornerShape(size = 20.dp)
 )

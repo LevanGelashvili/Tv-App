@@ -7,5 +7,5 @@ data class TvShowBrief(
     val name: String,
     val rating: Float,
     val firstAirDate: LocalDate?,
-    val posterUrl: String?,
+    val posterUrl: String?
 )

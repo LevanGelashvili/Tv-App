@@ -22,8 +22,4 @@ class Paginator<Key, Item>(
         onSuccess(items, currentKey)
         onLoadUpdated(false)
     }
-
-    fun reset() {
-        currentKey = initialKey
-    }
 }

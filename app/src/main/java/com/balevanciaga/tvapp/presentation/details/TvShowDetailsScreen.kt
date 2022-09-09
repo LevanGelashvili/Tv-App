@@ -202,32 +202,32 @@ private fun ScrollableSimilarShows(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp)
+            .padding(top = 16.dp),
     ) {
         Text(
             text = stringResource(R.string.similar_shows),
             color = Theme.colors.onBackground,
             style = Theme.typography.bold16
         )
-    }
-    Row(
-        modifier = Modifier
-            .height(posterHeight)
-            .horizontalScroll(rememberScrollState()),
-    ) {
-        similarShows.forEach {
-            Image(
-                modifier = Modifier
-                    .width(posterHeight / 2)
-                    .height(posterHeight)
-                    .padding(4.dp)
-                    .clickable {
-                        onSimilarShowClicked(it.id)
-                    },
-                painter = rememberAsyncImagePainter(model = it.posterUrl),
-                contentScale = ContentScale.FillWidth,
-                contentDescription = null
-            )
+        Row(
+            modifier = Modifier
+                .height(posterHeight)
+                .padding(top = 4.dp)
+                .horizontalScroll(rememberScrollState())
+        ) {
+            similarShows.forEach {
+                Image(
+                    modifier = Modifier
+                        .width(posterHeight / 2)
+                        .padding(4.dp)
+                        .clickable {
+                            onSimilarShowClicked(it.id)
+                        },
+                    painter = rememberAsyncImagePainter(model = it.posterUrl),
+                    contentScale = ContentScale.FillWidth,
+                    contentDescription = null
+                )
+            }
         }
     }
 }
